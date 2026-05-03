@@ -1,9 +1,9 @@
 const apiKey = '11c185c2'; 
-const movieTitle = 'Inception';
+const movieTitle = 'Interstellar';
 
 async function getMovieData(title) {
   try {
-    const response = await fetch(`https://omdbapi.com{title}&apikey=${apiKey}`);
+    const response = await fetch(`https://www.omdbapi.com/?t=${movieTitle}&apikey=${apiKey}`);
     const data = await response.json();
 
     if (data.Response === "True") {
