@@ -107,3 +107,4 @@ window.addEventListener('load', () => {
 });
 
 console.log('Netflix Clone - Проєкт запущено успішно! 🎬');
+

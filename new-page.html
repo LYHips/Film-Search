@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KINOGO - Дивіться фільми онлайн</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .search-container input {
+            padding: 8px 15px;
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 3px;
+            width: 200px;
+        }
+
+        .search-container button {
+            padding: 8px 20px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-right a {
+            color: #fff;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+
+        .header-right span {
+            color: #999;
+        }
+
+        .tabs {
+            background-color: #000;
+            padding: 0 40px;
+            display: flex;
+            gap: 40px;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab {
+            padding: 15px 0;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover, .tab.active {
+            color: #e50914;
+            border-bottom-color: #e50914;
+        }
+
+        .carousel-container {
+            background-color: #222;
+            padding: 20px 40px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .carousel-btn {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 20px;
+        }
+
+        .carousel-btn:hover {
+            background-color: #444;
+        }
+
+        .carousel-item {
+            flex-shrink: 0;
+            width: 180px;
+            border: 2px solid #333;
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-item:hover {
+            border-color: #e50914;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 40px;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section {
+            background-color: #222;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .sidebar-section h3 {
+            background-color: #333;
+            padding: 12px 15px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .sidebar-section h4 {
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-list li {
+            border-bottom: 1px solid #333;
+            padding: 0;
+        }
+
+        .sidebar-list a {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-list a:hover {
+            background-color: #333;
+            color: #e50914;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .filters {
+            background-color: #222;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-label {
+            color: #999;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .filter-select {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .movie-card {
+            background-color: #222;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .movie-card:hover {
+            background-color: #2a2a2a;
+        }
+
+        .movie-poster {
+            flex-shrink: 0;
+            width: 150px;
+        }
+
+        .movie-poster img {
+            width: 100%;
+            border-radius: 3px;
+        }
+
+        .movie-info {
+            flex: 1;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .movie-rating {
+            color: #ffc107;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .movie-desc {
+            color: #ccc;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .movie-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .detail-value {
+            color: #fff;
+        }
+
+        .detail-value a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background-color: #e50914;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #cc0812;
+        }
+
+        .kinema-nav {
+            background-color: #222;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .kinema-nav a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        .kinema-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">KINOGO</div>
+        <div class="search-container">
+            <input type="text" placeholder="Пошук...">
+            <button>OK</button>
+        </div>
+        <div class="header-right">
+            <a href="index.html">Вхід</a>
+            <span>/</span>
+            <a href="index.html">Реєстрація</a>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <a href="#" class="tab active">ГОЛОВНА</a>
+        <a href="#" class="tab">НОВИНКИ</a>
+        <a href="#" class="tab">СЕРІАЛИ</a>
+        <a href="#" class="tab">МУЛЬТИКИ</a>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel">
+            <button class="carousel-btn">‹</button>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film1" alt="Фільм 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film2" alt="Фільм 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film3" alt="Фільм 3">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film4" alt="Фільм 4">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film5" alt="Фільм 5">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/180x250/1a1a1a/666?text=Film6" alt="Фільм 6">
+            </div>
+            <button class="carousel-btn">›</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>НАВІГАЦІЯ</h3>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Жанри</h4>
+                <ul class="sidebar-list">
+                    <li><a href="#">Біографія <span>2026</span></a></li>
+                    <li><a href="#">Бойовики <span>2025</span></a></li>
+                    <li><a href="#">Вестерни <span>2024</span></a></li>
+                    <li><a href="#">Військові <span>2023</span></a></li>
+                    <li><a href="#">Детективи <span>2022</span></a></li>
+                    <li><a href="#">Документальні <span>2021</span></a></li>
+                    <li><a href="#">Драми <span>2020</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Країни</h4>
+                <ul class="sidebar-list">
+                    <li><a href="#">Американські</a></li>
+                    <li><a href="#">Британські</a></li>
+                    <li><a href="#">Російські</a></li>
+                    <li><a href="#">Індійські німецькі</a></li>
+                    <li><a href="#">Французькі</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Серіали</h4>
+                <ul class="sidebar-list">
+                    <li><a href="#">Російські</a></li>
+                    <li><a href="#">Зарубіжні</a></li>
+                    <li><a href="#">Турецькі</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="kinema-nav">
+                Кино > <a href="#">kinogo.my</a> > <a href="#">Фільми</a>
+            </div>
+
+            <div class="filters">
+                <span class="filter-label">Сортування:</span>
+                <select class="filter-select">
+                    <option>за замовчуванням</option>
+                    <option>за датою</option>
+                    <option>за рейтингом</option>
+                </select>
+                <select class="filter-select">
+                    <option>Усі жанри</option>
+                    <option>Комеді</option>
+                    <option>Драми</option>
+                </select>
+                <select class="filter-select">
+                    <option>Усі роки</option>
+                    <option>2026</option>
+                    <option>2025</option>
+                </select>
+                <select class="filter-select">
+                    <option>Усі країни</option>
+                    <option>США</option>
+                    <option>Франція</option>
+                </select>
+            </div>
+
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <img src="https://via.placeholder.com/150x200/1a1a1a/666?text=Prada" alt="Prada 2">
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Діявол носити Prada 2 (2026)</div>
+                    <div class="movie-rating">★★★★☆ Рейтинг: 4.5 / 5 (18)</div>
+                    <div class="movie-desc">
+                        Миранда Прістлі все ще голос сучасної моди, але у ній виросла технологічна думка розвивають ненайкращі часи. Деспотичні ікони стилю доводиться шукати нечевичні рішення для збереження свого журналу...
+                    </div>
+                    <div class="movie-details">
+                        <div class="detail-item">
+                            <span class="detail-label">РІК:</span>
+                            <span class="detail-value">2026</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">КРАЇНА:</span>
+                            <span class="detail-value">США</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">ЖАНР:</span>
+                            <span class="detail-value"><a href="#">Фільми</a> / <a href="#">Комеді</a></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">ЯКІСТЬ:</span>
+                            <span class="detail-value">TS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="back-btn" onclick="window.location.href='index.html'">← Повернутися</button>
+        </main>
+    </div>
+
+    <script src="new-file.siript.js"></script>
+</body>
+</html>
