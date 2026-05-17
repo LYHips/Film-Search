@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Page</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #2b2b2b;
+      color: #e6e6e6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      display: flex;
+      gap: 20px;
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .poster img {
+      width: 260px;
+      border-radius: 8px;
+    }
+
+    .meta span {
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .ratings {
+      margin-top: 10px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .rating-box {
+      background: #2a2a2a;
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+
+    .plot {
+      margin-top: 20px;
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="poster">
+      <img id="poster" src="" alt="Poster">
+    </div>
+
+    <div class="info">
+
+      <h1 id="title">Loading...</h1>
+
+      <div class="meta">
+        <div><span>Жанр:</span> <span id="genre"></span></div>
+        <div><span>Країна:</span> <span id="country"></span></div>
+        <div><span>Мова:</span> <span id="language"></span></div>
+        <div><span>Режисер:</span> <span id="director"></span></div>
+        <div><span>Актори:</span> <span id="actors"></span></div>
+      </div>
+
+      <div class="ratings">
+        <div class="rating-box" id="imdb"></div>
+        <div class="rating-box" id="votes"></div>
+        <div class="rating-box" id="seasons"></div>
+      </div>
+
+      <div class="plot" id="plot"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="API.js"></script>
+
+</body>
+</html>
